@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>商品管理 - 订单库存管理系统</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="logo">🛒 订单库存系统</div>
+    <div class="logo-sub">Order &amp; Stock Demo</div>
+    <nav class="nav">
+      <a href="index.html"><span class="icon">📊</span> 概览</a>
+      <a href="products.html"><span class="icon">📦</span> 商品管理</a>
+      <a href="orders.html"><span class="icon">🧾</span> 订单管理</a>
+    </nav>
+    <div class="sidebar-footer">Spring Boot · MyBatis<br>MySQL</div>
+  </aside>
+
+  <main class="main">
+    <div class="page-header-row">
+      <div>
+        <h1 class="page-title">商品管理</h1>
+        <p class="page-desc">维护商品信息与库存</p>
+      </div>
+        <div style="display:flex; gap:8px; align-items:center;">
+            <input id="search-keyword" type="text" placeholder="按名称/备注搜索" style="padding:9px 13px; border:1px solid
+  #e5e7eb; border-radius:9px; font-size:14px; outline:none;">
+            <button class="btn btn-ghost" onclick="searchProducts()">搜索</button>
+            <button class="btn btn-primary" onclick="openAddModal()">＋ 新增商品</button>
+        </div>
+    </div>
+
+    <div class="card">
+      <table class="table">
+          <thead><tr><th>ID</th><th>商品名称</th><th>价格</th><th>库存</th><th>描述</th><th>备注</th><th>操作</th></tr></thead>
+        <tbody id="product-tbody"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- 新增商品弹窗 -->
+  <div class="modal" id="add-modal">
+    <div class="modal-dialog">
+      <div class="modal-header"><h3>新增商品</h3><button class="modal-close" onclick="closeModal('add-modal')">×</button></div>
+      <div class="modal-body">
+        <div class="form-item"><label>商品名称</label><input id="add-name" type="text" placeholder="请输入商品名称"></div>
+        <div class="form-item"><label>价格（元）</label><input id="add-price" type="number" step="0.01" min="0" placeholder="0.00"></div>
+        <div class="form-item"><label>初始库存</label><input id="add-stock" type="number" min="0" placeholder="0"></div>
+        <div class="form-item"><label>描述</label><input id="add-desc" type="text" placeholder="选填"></div>
+          <div class="form-item"><label>备注</label><input id="add-remark" type="text" placeholder="选填"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal('add-modal')">取消</button>
+        <button class="btn btn-primary" onclick="submitAdd()">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 调整库存弹窗 -->
+  <div class="modal" id="stock-modal">
+    <div class="modal-dialog">
+      <div class="modal-header"><h3>调整库存</h3><button class="modal-close" onclick="closeModal('stock-modal')">×</button></div>
+      <div class="modal-body">
+        <p id="stock-product-name" class="muted" style="margin-bottom:16px;"></p>
+        <div class="form-item">
+          <label>调整方式</label>
+          <div class="seg">
+            <button class="seg-btn active" data-mode="inc" onclick="setStockMode('inc')">增加</button>
+            <button class="seg-btn" data-mode="dec" onclick="setStockMode('dec')">减少</button>
+          </div>
+        </div>
+        <div class="form-item"><label>数量</label><input id="stock-delta" type="number" min="1" placeholder="请输入数量"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal('stock-modal')">取消</button>
+        <button class="btn btn-primary" onclick="submitStock()">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/common.js"></script>
+  <script src="js/products.js"></script>
+</body>
+</html>
